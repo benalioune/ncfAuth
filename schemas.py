@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 class UserBase(BaseModel):
@@ -18,4 +19,16 @@ class Token(BaseModel):
     token_type: str
 
 class TokenData(BaseModel):
-    username: str | None = None
+    username: str = None
+
+
+
+class NFCData(BaseModel):
+    nfc_data: str
+
+class User(BaseModel):
+    name: str
+    nfc_data: str
+
+    class Config:
+        orm_mode = True

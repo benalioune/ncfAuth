@@ -65,3 +65,13 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 @app.get("/users/me/", response_model=schemas.User)
 def read_users_me(current_user: schemas.User = Depends(get_current_user)):
     return current_user
+
+@app.post("/verify_nfc", response_model=schemas.User)
+def verify_nfc(nfc_data: schemas.NFCData, db: Session = Depends(get_db)):
+    user = crud.get_user_by_nfc_data(db, nfc_data=nfc_data.nfc_data)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
+    return user
